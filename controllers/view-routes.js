@@ -4,6 +4,7 @@ const { Blogs, User} = require('../models')
 
 router.get('/', async (req, res) => {
     try {
+        console.log('login:', req.session.logged_in)
         let blogs = await Blogs.findAll()
         blogs = blogs.map(blogs => blogs.get({ plain: true }))
         res.render('home', {
@@ -26,12 +27,19 @@ router.get('/blogs/:id', async (req, res) => {
     }
 })
 
-// router.get('/login', (req, res) => {
-//     res.render('login')
-// })
+router.get('/login', (req, res) => {
+    res.render('login')
+})
 
-// router.get('/logout', (req, res) => {
-//     res.render('logout')
-// })
+router.get('/logout', (req, res) => {
+ 
+    if (req.session.logged_in) {
+        req.session.destroy(() => {
+            res.render('logout')
+        });
+      } else {
+        res.status(404).end();
+      }
+})
 
 module.exports = router
