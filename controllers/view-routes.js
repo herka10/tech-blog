@@ -1,25 +1,37 @@
 const router = require('express').Router()
 const { json } = require('body-parser')
-const { Blog, User} = require('../models')
+const { Blogs, User} = require('../models')
 
 router.get('/', async (req, res) => {
     try {
-        let blog = await Blog.findAll()
-        blog = blog.map(blog => blog.get({ plain: true }))
-        res.render('home', {blog})
+        let blogs = await Blogs.findAll()
+        blogs = blogs.map(blogs => blogs.get({ plain: true }))
+        res.render('home', {
+            blogs,
+            logged_in: req.session.logged_in})
     } catch(err) {
         res.status(500).json(err)
     }
 })
 
-router.get('/blog/:id', async (req, res) => {
+router.get('/blogs/:id', async (req, res) => {
     try {
-        let blog = await Blog.findByPk(req.params.id)
-        blog = blog.get({ plain: true })
-        res.render('blog', {blog})
+        let blogs = await Blogs.findByPk(req.params.id)
+        blogs = blogs.get({ plain: true })
+        res.render('blogs', {
+            blogs,
+            logged_in: req.session.logged_in})
     } catch(err) {
         res.status(500).json(err)
     }
 })
+
+// router.get('/login', (req, res) => {
+//     res.render('login')
+// })
+
+// router.get('/logout', (req, res) => {
+//     res.render('logout')
+// })
 
 module.exports = router
