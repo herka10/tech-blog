@@ -1,10 +1,13 @@
 <h1>Blog Posts</h1>
 
+
 <div class="list-group">
-{{#each projects}}
-    <a href="/blog/{{id}}" class="list-group-item list-group-item-action">
-        {{name}}
+{{#each blogs as |blog|}}
+    <a href="/blogs/{{blog.id}}" class="list-group-item list-group-item-action">
+        {{blog.title}}
     </a>
+    <p>Created by {{blog.user.name}}</p>
+    <p>{{blog.description}}</p>
 {{/each}}
 
 </div>

@@ -1,15 +1,24 @@
 const router = require('express').Router()
 const { json } = require('body-parser')
-const { Blogs, User} = require('../models')
+const { Blogs, User } = require('../models')
+const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
     try {
-        console.log('login:', req.session.logged_in)
-        let blogs = await Blogs.findAll()
-        blogs = blogs.map(blogs => blogs.get({ plain: true }))
+        const blogData = await Blogs.findAll({
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'], 
+                },
+            ],
+        });
+
+        const blogs = blogData.map((blog) => blog.get({ plain: true }))
         res.render('home', {
             blogs,
-            logged_in: req.session.logged_in})
+            logged_in: req.session.logged_in
+        });
     } catch(err) {
         res.status(500).json(err)
     }
@@ -17,25 +26,58 @@ router.get('/', async (req, res) => {
 
 router.get('/blogs/:id', async (req, res) => {
     try {
-        let blogs = await Blogs.findByPk(req.params.id)
-        blogs = blogs.get({ plain: true })
-        res.render('blogs', {
-            blogs,
-            logged_in: req.session.logged_in})
+        const blogData = await Blogs.findByPk(req.params.id, {
+        include: [
+            {
+            model: User,
+            attributes: ['name'],
+            },
+        ],
+    }); 
+
+        const blogs = blogData.get({ plain: true});
+
+        res.render('blog', {
+            ...blogs,
+            logged_in: req.session.logged_in
+        });
     } catch(err) {
         res.status(500).json(err)
     }
-})
+});
+
+router.get('/profile', withAuth, async (req, res) => {
+    try {
+        const userData = await User.findByPk(req.session.user_id, {
+            attributes: {exclude: ['password']},
+            include: [{ model: Blogs}]
+        }); 
+
+        const user = userData.get({ plain: true });
+
+        res.render('profile', {
+            ...user,
+            logged_in: true
+        });
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
 
 router.get('/login', (req, res) => {
-    res.render('login')
+    if (req.session.logged_in) {
+    res.redirect('/profile');
+    return;
+    }
+
+    res.render('login');
 })
 
 router.get('/logout', (req, res) => {
  
     if (req.session.logged_in) {
         req.session.destroy(() => {
-            res.render('logout')
+            res.render('home')
         });
       } else {
         res.status(404).end();
