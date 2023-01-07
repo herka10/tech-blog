@@ -9,6 +9,13 @@ router.post('/', async (req, res) => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
 
+    if (req.session.save() === userData) {
+      res
+        .status(400)
+        .json({ message: 'Email has been signed up already. Please login.' });
+      return;
+    }
+
       res.status(200).json(userData);
     });
   } catch (err) {

@@ -4,14 +4,33 @@
   <p>Created by {{user.name}}</p>
  
 {{#if logged_in}} 
+  {{!-- {{#each comments as |comment|}}
+    <div class="row mb-2">
+      <div class="col-md-8">
+        <h4><a href="/blogs/{{blog.id}}">{{blog.title}}</a></h4>
+      </div>
+      <div class="col-md-4 mb-3">
+        <button id="updateBtn" class="btn btn-sm btn-danger mb-2" data-id="{{blog.id}}">UPDATE</button>
+        <button id="deleteBtn" class="btn btn-sm btn-danger" data-id="{{blog.id}}">DELETE</button>
+      </div>
+    </div>
+    {{/each}} --}}
+  
+  <div>
   <span>
     <label for="comments" class="form-label">Comments</label>
     <input type="text" class="form-control" name="comments">
+    <p>
+      <button id="commentBtn" class="btn btn-primary">Submit</button>
+    </p>
   </span>
-  <p>
-    <button id="commentBtn" class="btn btn-primary">Submit</button>
-  </p>
+    <p>
+      <button id="updateCommentBtn" class="btn btn-primary">Update</button>
+      <button id="deleteCommentBtn" class="btn btn-primary">Delete</button>
+    </p>
+  
+  </div>
 {{/if}}
 </div>
 
-<script src="/js/blog.js"></script>
+<script src="/js/comment.js"></script>

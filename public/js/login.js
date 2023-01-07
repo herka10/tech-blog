@@ -4,10 +4,13 @@ const signupForm = document.getElementById('signup')
 const handleSubmit = event => {
     event.preventDefault()
 
-    const formId = event.target.id
+    const formId = event.target
+   
     const url = formId === 'signup'
        ? '/api/users'
        : '/api/users/login'
+    
+       console.log('url link:', url)
 
     const { 
         name: nameInput, 

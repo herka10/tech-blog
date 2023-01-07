@@ -10,21 +10,39 @@
 
     <form id="submitBtn">
       <div class="mb-3">
-        <label for="title" class="form-label">Blog</label>
+        <label id="blogTitle" for="title" class="form-label">Title</label>
         <input type="title" class="form-control" name="title">
       </div>
       <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
+        <label id="description" for="description" class="form-label">Description</label>
         <input type="text" class="form-control" name="description">
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <p>
+        <button id="submitBtn" class="btn btn-primary">Submit</button>
+      </p>
     </form>
 
+    {{#if blogs.length}}
+  <div class="col-md-6 project-list">
+    <h3>Current Blogs:</h3>
+
+    {{#each blogs as |blog|}}
+    <div class="row mb-2">
+      <div class="col-md-8">
+        <h4><a href="/blogs/{{blog.id}}">{{blog.title}}</a></h4>
+      </div>
+      <div class="col-md-4 mb-3">
+        <button id="updateBtn" class="btn btn-sm btn-danger mb-2" data-id="{{blog.id}}">UPDATE</button>
+        <button id="deleteBtn" class="btn btn-sm btn-danger" data-id="{{blog.id}}">DELETE</button>
+      </div>
+    </div>
+    {{/each}}
   </div>
+  {{/if}}
 </div>
 
 
-  
+
 
 
 
