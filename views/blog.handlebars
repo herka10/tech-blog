@@ -4,19 +4,6 @@
   <p>Created by {{user.name}}</p>
  
 {{#if logged_in}} 
-  
-    {{!-- <div class="row mb-2">
-      <div class="col-md-8">
-        <h4><a href="/blogs/{{blog.id}}">{{blog.title}}</a></h4>
-      </div>
-      <div class="col-md-4 mb-3">
-        <button id="updateBtn" class="btn btn-sm btn-danger mb-2" data-id="{{blog.id}}">UPDATE</button>
-        <button id="deleteBtn" class="btn btn-sm btn-danger" data-id="{{blog.id}}">DELETE</button>
-      </div>
-    </div> --}}
-    
-  
-  
   <div>
   <span>
     <label for="comments" class="form-label">Comments</label>
@@ -34,7 +21,7 @@
   {{#each comments as |comment|}}
   <h4>{{comment.comment}}</h4>
   <p>Date Created: {{comment.date_created}}</p>
-  <p>Author: {{comment.user_name}}</p>
+  <p>User ID: {{comment.user_id}}</p>
   {{/each}}
 {{/if}}
 </div>
