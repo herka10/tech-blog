@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { json } = require('body-parser')
-const { Blogs, User } = require('../models')
+const { Blogs, User, Comments } = require('../models')
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
@@ -30,13 +30,16 @@ router.get('/blogs/:id', async (req, res) => {
         include: [
             {
             model: User,
-            attributes: ['name'],
             },
+            {
+            model: Comments,
+            }
         ],
     }); 
 
+    console.log('blogData', blogData)
         const blogs = blogData.get({ plain: true});
-
+        console.log('blogFlag', blogs)
         res.render('blog', {
             ...blogs,
             logged_in: req.session.logged_in
@@ -45,6 +48,27 @@ router.get('/blogs/:id', async (req, res) => {
         res.status(500).json(err)
     }
 });
+
+// router.get('/comments/:id', async (req, res) => {
+//     try {
+//         const commentData = await Blogs.findByPk(req.params.id, {
+//         include: [
+//             {
+//             model: Comment,
+//             },
+//         ],
+//     }); 
+
+//         const comments = commentData.get({ plain: true});
+
+//         res.render('comment', {
+//             ...comments,
+//             logged_in: req.session.logged_in
+//         });
+//     } catch(err) {
+//         res.status(500).json(err)
+//     }
+// });
 
 router.get('/profile', withAuth, async (req, res) => {
     try {

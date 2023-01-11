@@ -4,8 +4,8 @@
   <p>Created by {{user.name}}</p>
  
 {{#if logged_in}} 
-  {{!-- {{#each comments as |comment|}}
-    <div class="row mb-2">
+  
+    {{!-- <div class="row mb-2">
       <div class="col-md-8">
         <h4><a href="/blogs/{{blog.id}}">{{blog.title}}</a></h4>
       </div>
@@ -13,23 +13,29 @@
         <button id="updateBtn" class="btn btn-sm btn-danger mb-2" data-id="{{blog.id}}">UPDATE</button>
         <button id="deleteBtn" class="btn btn-sm btn-danger" data-id="{{blog.id}}">DELETE</button>
       </div>
-    </div>
-    {{/each}} --}}
+    </div> --}}
+    
+  
   
   <div>
   <span>
     <label for="comments" class="form-label">Comments</label>
-    <input type="text" class="form-control" name="comments">
+    <input type="text" class="form-control" name="comments" id="commentInput">
     <p>
       <button id="commentBtn" class="btn btn-primary">Submit</button>
     </p>
   </span>
-    <p>
+    {{!-- <p>
       <button id="updateCommentBtn" class="btn btn-primary">Update</button>
       <button id="deleteCommentBtn" class="btn btn-primary">Delete</button>
-    </p>
+    </p> --}}
   
   </div>
+  {{#each comments as |comment|}}
+  <h4>{{comment.comment}}</h4>
+  <p>Date Created: {{comment.date_created}}</p>
+  <p>Author: {{comment.user_name}}</p>
+  {{/each}}
 {{/if}}
 </div>
 

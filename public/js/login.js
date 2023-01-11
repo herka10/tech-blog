@@ -4,8 +4,9 @@ const signupForm = document.getElementById('signup')
 const handleSubmit = event => {
     event.preventDefault()
 
-    const formId = event.target
+    const formId = event.target.id
    
+    console.log(formId)
     const url = formId === 'signup'
        ? '/api/users'
        : '/api/users/login'
